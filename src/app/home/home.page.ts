@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-
+import Swal from "sweetalert2";
 @Component({
 	selector: "app-home",
 	templateUrl: "home.page.html",
@@ -35,13 +35,19 @@ export class HomePage {
 			this.cantClick = true;
 			this.oxArray[rowIndex][colIndex] = type;
 			this.winnerJudge(type);
+			console.log(this.cantClick);
 			if (this.oxArray[rowIndex][colIndex]) {
 				setTimeout(() => {
 					while (true) {
+						if (this.oxArray.every((row) => row.every((col) => col))) {
+							alert("引き分け");
+							this.clearOxArray();
+							break;
+						}
 						const rowRandom = Math.floor(Math.random() * 3);
 						const colRandom = Math.floor(Math.random() * 3);
+						console.log(this.cantClick);
 						if (this.oxArray[rowRandom][colRandom] !== "") {
-							this.cantClick = false;
 							continue;
 						} else {
 							this.oxArray[rowRandom][colRandom] =
@@ -58,13 +64,39 @@ export class HomePage {
 		}
 	}
 
+	winnerAlert(type: string) {
+		let src: string;
+		let title: string;
+		if (this.userSetting !== type) {
+			src = "/assets/images/lose.gif";
+			title = "you lose";
+		} else {
+			src = "/assets/images/giphy.gif";
+			title = "you win";
+		}
+		Swal.fire({
+			heightAuto: false,
+			title: `${title}`,
+			width: 600,
+			padding: "3em",
+			color: "#716add",
+			backdrop: `
+			rgba(0,0,123,0.4)
+			url(${src})
+			left top
+			no-repeat
+			`,
+		});
+	}
+
 	winnerJudge(type: string) {
 		if (
 			this.oxArray[0][0] === this.oxArray[1][1] &&
 			this.oxArray[1][1] === this.oxArray[2][2] &&
 			this.oxArray[0][0] !== ""
 		) {
-			alert(`${type}の勝ちです`);
+			// alert(`${type}の勝ちです`);
+			this.winnerAlert(type);
 			this.clearOxArray();
 			return;
 		}
@@ -73,7 +105,7 @@ export class HomePage {
 			this.oxArray[1][1] === this.oxArray[2][0] &&
 			this.oxArray[0][2] !== ""
 		) {
-			alert(`${type}の勝ちです`);
+			this.winnerAlert(type);
 			this.clearOxArray();
 			return;
 		}
@@ -83,7 +115,7 @@ export class HomePage {
 				this.oxArray[1][i] === this.oxArray[2][i] &&
 				this.oxArray[0][i] !== ""
 			) {
-				alert(`${type}の勝ちです`);
+				this.winnerAlert(type);
 				this.clearOxArray();
 				return;
 			}
@@ -95,7 +127,7 @@ export class HomePage {
 				row[0] === row[2] &&
 				row[0] !== ""
 			) {
-				alert(`${type}の勝ちです`);
+				this.winnerAlert(type);
 				this.clearOxArray();
 				return;
 			}

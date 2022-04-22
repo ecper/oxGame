@@ -14,12 +14,14 @@
     </ion-row>
   </ion-grid>
   <ion-grid *ngIf="userSetting">
-    <ion-row *ngFor="let row of oxArray let i = index">
-      <ion-input lines="none" [disabled]="cantClick" [readonly]="true" *ngFor="let col of row let j = index"
-        (click)="addString(i,j, userSetting)">
-        <h1 *ngIf="col === '〇'">〇</h1>
-        <h1 *ngIf="col === '☓'">☓</h1>
-      </ion-input>
-    </ion-row>
+    <ion-col>
+      <ion-row *ngFor="let row of oxArray let i = index">
+        <ion-button color="light" [disabled]="cantClick" *ngFor="let col of row let j = index"
+          (click)="addString(i,j, userSetting)">
+          <h2 *ngIf="col === '〇'">〇</h2>
+          <h2 *ngIf="col === '☓'">☓</h2>
+        </ion-button>
+      </ion-row>
+    </ion-col>
   </ion-grid>
 </ion-content>
