@@ -1,20 +1,25 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blank
+      三目ならべ
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+<ion-content>
+  <ion-grid *ngIf="!userSetting">
+    <ion-row>
+      <ion-button (click)="setUserOX(true)">〇で戦う</ion-button>
+      <ion-button (click)="setUserOX(false)">☓で戦う</ion-button>
+    </ion-row>
+  </ion-grid>
+  <ion-grid *ngIf="userSetting">
+    <ion-row *ngFor="let row of oxArray let i = index">
+      <ion-input lines="none" [disabled]="cantClick" [readonly]="true" *ngFor="let col of row let j = index"
+        (click)="addString(i,j, userSetting)">
+        <h1 *ngIf="col === '〇'">〇</h1>
+        <h1 *ngIf="col === '☓'">☓</h1>
+      </ion-input>
+    </ion-row>
+  </ion-grid>
 </ion-content>
