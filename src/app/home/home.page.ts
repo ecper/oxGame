@@ -27,7 +27,7 @@ export class HomePage {
 			["", "", ""],
 		];
 		this.cantClick = false;
-    this.userSetting = "";
+		this.userSetting = "";
 	}
 
 	async addString(rowIndex: number, colIndex: number, type: string) {
@@ -44,7 +44,9 @@ export class HomePage {
 							this.cantClick = false;
 							continue;
 						} else {
-							this.oxArray[rowRandom][colRandom] = this.userSetting !== "☓" ? "☓" : "〇";
+							this.oxArray[rowRandom][colRandom] =
+								this.userSetting !== "☓" ? "☓" : "〇";
+							this.winnerJudge(this.userSetting !== "☓" ? "☓" : "〇");
 							this.cantClick = false;
 							break;
 						}
